@@ -1,0 +1,57 @@
+<!-- 
+    Vea este desafío en mi página web
+    https://challengefivejs.lauty.dev
+ -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script defer src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/luxon@2.4.0/build/global/luxon.min.js"></script>
+    <script defer src="./assets/js/script.js"></script>
+    
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <link rel="shortcut icon" href="./assets/img/favicon.ico" type="image/x-icon">
+
+    <meta name="theme-color" content="#5f1aea">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://challengefivejs.lauty.dev">
+    <meta property="og:site_name" content="LautyDev Website">
+    <meta property="og:title" content="CoderHouse - JavaScript - Desafío 5">
+    <meta property="og:description" content="Simulador de información de una IP para el desafío 5 de JavaScript de CoderHouse">
+    <meta property="og:image" content="https://challengefivejs.lauty.dev/assets/img/favicon.ico">
+
+    <title>InfoIP 🌐</title>
+    <meta name="description" content="Simulador de información de una IP para el desafío 5 de JavaScript de CoderHouse">
+    <meta name="keywords" content="ip, javascript, ip-api, mapbox, luxon, api">
+</head>
+<body>
+    <header>
+        <h1>Información sobre una IP</h1>
+    </header>
+    <main>
+        <form action="">
+            <article class="containerForm">
+                <input type="tel" name="IP" id="IP" placeholder="Escribe una IP" required>
+            </article>
+            <article class="containerForm">
+                <button type="button" id="submit">Ver información</button>
+            </article>
+        </form>
+
+        <div id="viewInfo">
+            <h2>Información</h2>
+
+            <div id="info">
+
+            </div>
+        </div>
+    </main>
+</body>
+</html>
