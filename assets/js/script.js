@@ -3,7 +3,7 @@ const submitButton = document.getElementById('submit')
 submitButton.addEventListener('click', async () => {
     const ip = document.getElementById('IP')
 
-    const infoIP = await fetch('http://ip-api.com/json/' + ip.value + '?fields=66846719').then(response => response.json()).then(json => json).catch(err => console.log('Solicitud fallida', err))
+    const infoIP = await fetch('https://ipapi.lauty.dev/' + ip.value + '?fields=66846719').then(response => response.json()).then(json => json).catch(err => console.log('Solicitud fallida', err))
 
     const info = document.getElementById('info')
 
