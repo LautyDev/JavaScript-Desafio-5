@@ -68,7 +68,7 @@ async function getIPInfo(e) {
 				},
 				properties: {
 					title: 'Ubicación',
-					description: 'Ubicación de la IP',
+					description: 'Ubicación de la dirección IP',
 				},
 			},
 		],
