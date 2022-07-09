@@ -12,7 +12,7 @@ submitButton.addEventListener('click', async () => {
 
     const divIP = `<div id="info">
         <article class="containerInfo">
-            <h3>IP: ${infoIP.query}</h3>
+            <h3>IP: ${infoIP.query || 'Sin datos'}</h3>
             <h3>AS: ${infoIP.as || 'Sin datos'}</h3>
             <h3>Nombre AS: ${infoIP.asname || 'Sin datos'}</h3>
             <h3>País: ${infoIP.country || 'Sin datos'} (${infoIP.countryCode || 'Sin datos'})</h3>
