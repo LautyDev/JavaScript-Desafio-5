@@ -1,19 +1,34 @@
+const ipForm = document.getElementById('ipForm')
 const submitButton = document.getElementById('submit')
 
-submitButton.addEventListener('click', async () => {
-    const ip = document.getElementById('IP')
+ipForm.addEventListener('submit', getIPInfo)
+submitButton.addEventListener('click', getIPInfo)
 
-    const infoIP = await fetch('https://ipapi.lauty.dev/' + ip.value + '?fields=66846719', {
-        mode: 'no-cors'
-    }).then(response => response.json()).then(json => json).catch(err => console.log('Solicitud fallida', err))
+async function getIPInfo(e) {
+	e.preventDefault()
 
-    const info = document.getElementById('viewInfo')
+	const info = document.getElementById('viewInfo')
 
-    var DateTime = luxon.DateTime
-    const time = DateTime.now().setZone(infoIP.timezone || 'UTC')
+	const ip = document.getElementById('ip')
 
-    const divInfo = 
-        `<div id="viewInfo">
+	info.innerHTML = 
+		`<div id="viewInfo">
+            <h2>Obteniendo información de la dirección IP...</h2>
+        </div>`
+
+	const infoIP = await fetch('https://ipapi.lauty.dev/' + ip.value + '?fields=66846719').then((res) => res.json()).catch((err) => console.log('Solicitud fallida', err))
+
+	if (!infoIP || infoIP.status === 'fail') return (info.innerHTML = 
+		`<div id="viewInfo">
+            <h2>Error al consultar la dirección IP</h2>
+        </div>`)
+
+	var DateTime = luxon.DateTime
+
+	const time = DateTime.now().setZone(infoIP.timezone || 'UTC')
+
+	const divInfo = 
+		`<div id="viewInfo">
             <h2>Información</h2>
             
             <div id="info">
@@ -38,47 +53,46 @@ submitButton.addEventListener('click', async () => {
             </div>
         </div>`
 
-    info.innerHTML = divInfo
+	info.innerHTML = divInfo
 
-    
-    mapboxgl.accessToken = 'pk.eyJ1IjoibGF1dHlkZXYiLCJhIjoiY2w1Y3htOHJ5MGVpbjNibjN3MGQxbjV0NSJ9.vgg471uOM8q8EM9vpX3CgQ';
-    
-    const geojson = {
-        'type': 'FeatureCollection',
-        'features': [{
-                'type': 'Feature',
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [infoIP.lon, infoIP.lat]
-                },
-                'properties': {
-                    'title': 'Ubicación',
-                    'description': 'Ubicación de la IP'
-                }
-            }
-        ]
-    }
-    
-    const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [infoIP.lon, infoIP.lat],
-        zoom: 13,
-        projection: 'globe'
-    })
+	mapboxgl.accessToken = 'pk.eyJ1IjoibGF1dHlkZXYiLCJhIjoiY2w1Y3htOHJ5MGVpbjNibjN3MGQxbjV0NSJ9.vgg471uOM8q8EM9vpX3CgQ'
 
-    for (const feature of geojson.features) {
-        const markerDiv = document.createElement('div')
-        markerDiv.className = 'marker'
+	const geojson = {
+		type: 'FeatureCollection',
+		features: [
+			{
+				type: 'Feature',
+				geometry: {
+					type: 'Point',
+					coordinates: [infoIP.lon, infoIP.lat],
+				},
+				properties: {
+					title: 'Ubicación',
+					description: 'Ubicación de la IP',
+				},
+			},
+		],
+	}
 
-        new mapboxgl.Marker(markerDiv)
-        .setLngLat(feature.geometry.coordinates)
-        .setPopup(
-            new mapboxgl.Popup({ offset: 25 })
-            .setHTML(
-                `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
-            )
-        )
-        .addTo(map)
-    }
-})
+	const map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [infoIP.lon, infoIP.lat],
+		zoom: 13,
+		projection: 'globe',
+	})
+
+	for (const feature of geojson.features) {
+		const markerDiv = document.createElement('div')
+		markerDiv.className = 'marker'
+
+		new mapboxgl.Marker(markerDiv)
+			.setLngLat(feature.geometry.coordinates)
+			.setPopup(
+				new mapboxgl.Popup({ offset: 25 }).setHTML(
+					`<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+				)
+			)
+			.addTo(map)
+	}
+}
